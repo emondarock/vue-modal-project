@@ -1,8 +1,10 @@
 <template>
   <div class="backdrop" @click.self="closeModal">
-    <div class="modal" :class="{sale: theme === 'sale', dark: theme === 'dark'}" >
-      <h1>{{header}}</h1>
-      <p>{{text}}</p>
+    <div class="modal" :class="{sale: theme === 'sale', dark: theme === 'dark'}">
+      <slot></slot>
+      <div class="actions">
+        <slot name="links"></slot>
+      </div>
     </div>
   </div>
 </template>
@@ -10,16 +12,16 @@
 <script>
 export default {
   name: "Modal",
-  props: ["header", 'text', 'theme'],
+  props: ['theme'],
   methods: {
-    closeModal(){
+    closeModal() {
       this.$emit('close')
     }
   }
 }
 </script>
 
-<style scoped>
+<style>
   .modal {
     width: 400px;
     padding: 20px;
@@ -41,10 +43,27 @@ export default {
     border: none;
     padding: 0;
   }
+
   .modal p {
     font-style: normal;
   }
 
+  .modal .actions {
+    text-align: center;
+    margin: 30px 0 10px 0;
+    color: #333;
+  }
+
+  .modal .actions a {
+    color: #333;
+    padding: 8px;
+    border: 1px solid #eee;
+    border-radius: 4px;
+    text-decoration: none;
+    margin: 10px;
+  }
+
+  /* sale styles */
   .modal.sale {
     background: crimson;
     color: white;
@@ -54,8 +73,11 @@ export default {
     color: white;
   }
 
-  .modal.dark {
-    background: black;
+  .modal.sale .actions {
+    color: white;
+  }
+
+  .modal.sale .actions a {
     color: white;
   }
 </style>
